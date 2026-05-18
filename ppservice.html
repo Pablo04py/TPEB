@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PPService – Reparación y Mantenimiento de Equipos Informáticos</title>
+  <meta name="description" content="PPService – Servicio técnico profesional en reparación de PCs, notebooks, consolas e impresoras. Diagnóstico rápido y confiable." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+          },
+          colors: {
+            navy: {
+              900: '#060d1f',
+              800: '#0b1630',
+              700: '#0f2050',
+              600: '#152b6b',
+            },
+            electric: {
+              500: '#1d6ef5',
+              400: '#4a8ef8',
+              300: '#7bb1fa',
+              200: '#c2d9fd',
+            },
+            slate: {
+              950: '#06090f',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background-color: #060d1f;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(29,110,245,.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(29,110,245,.04) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .blob {
+      position: absolute;
+      border-radius: 9999px;
+      filter: blur(120px);
+      opacity: .18;
+      pointer-events: none;
+    }
+
+    nav {
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: rgba(6,13,31,.85);
+      border-bottom: 1px solid rgba(29,110,245,.15);
+    }
+
+    .gradient-text {
+      background: linear-gradient(135deg, #fff 0%, #7bb1fa 50%, #1d6ef5 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #1d6ef5, #0d4ec2);
+      box-shadow: 0 0 30px rgba(29,110,245,.4), 0 4px 16px rgba(29,110,245,.25);
+      transition: all .3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,.15), transparent);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .btn-primary:hover {
+      box-shadow: 0 0 50px rgba(29,110,245,.6), 0 8px 24px rgba(29,110,245,.4);
+      transform: translateY(-2px);
+    }
+    .btn-primary:hover::after { opacity: 1; }
+
+    .card {
+      background: linear-gradient(135deg, rgba(15,32,80,.6) 0%, rgba(11,22,48,.8) 100%);
+      border: 1px solid rgba(29,110,245,.15);
+      backdrop-filter: blur(12px);
+      transition: all .35s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #1d6ef5, transparent);
+      opacity: 0;
+      transition: opacity .35s;
+    }
+    .card:hover {
+      border-color: rgba(29,110,245,.45);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(29,110,245,.15);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .icon-glow {
+      background: rgba(29,110,245,.12);
+      border: 1px solid rgba(29,110,245,.25);
+      box-shadow: 0 0 20px rgba(29,110,245,.15);
+    }
+
+    .section-label {
+      font-family: 'Syne', sans-serif;
+      font-size: .72rem;
+      font-weight: 700;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: #4a8ef8;
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(29,110,245,.3), transparent);
+    }
+
+    .form-input {
+      background: rgba(11,22,48,.7);
+      border: 1px solid rgba(29,110,245,.2);
+      color: #e2e8f0;
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: #1d6ef5;
+      box-shadow: 0 0 0 3px rgba(29,110,245,.15);
+    }
+    .form-input::placeholder { color: #4a5568; }
+
+    #mobile-menu { transition: max-height .35s ease, opacity .35s ease; }
+
+    .fade-in {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .stat-badge {
+      background: rgba(29,110,245,.1);
+      border: 1px solid rgba(29,110,245,.2);
+    }
+
+    .btn-whatsapp {
+      background: linear-gradient(135deg, #25d366, #128c7e);
+      box-shadow: 0 4px 20px rgba(37,211,102,.3);
+      transition: all .3s ease;
+    }
+    .btn-whatsapp:hover {
+      box-shadow: 0 8px 30px rgba(37,211,102,.5);
+      transform: translateY(-2px);
+    }
+
+    .btn-email {
+      background: linear-gradient(135deg, #ea4335, #c5221f);
+      box-shadow: 0 4px 20px rgba(234,67,53,.3);
+      transition: all .3s ease;
+    }
+    .btn-email:hover {
+      box-shadow: 0 8px 30px rgba(234,67,53,.45);
+      transform: translateY(-2px);
+    }
+
+    .hero-tag {
+      background: rgba(29,110,245,.12);
+      border: 1px solid rgba(29,110,245,.3);
+      backdrop-filter: blur(8px);
+    }
+
+    /* ── Social card hover overrides ── */
+    .social-ig:hover { border-color: rgba(220,39,67,.5) !important; box-shadow: 0 20px 60px rgba(220,39,67,.12) !important; }
+    .social-fb:hover { border-color: rgba(24,119,242,.5) !important; box-shadow: 0 20px 60px rgba(24,119,242,.12) !important; }
+  </style>
+</head>
+
+<body class="relative">
+
+<!-- ═══════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════ -->
+<nav class="fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex items-center justify-between h-16 md:h-18">
+
+      <a href="#inicio" class="flex items-center gap-2.5 group">
+        <div class="w-9 h-9 rounded-lg bg-electric-500 flex items-center justify-center shadow-lg shadow-electric-500/30 group-hover:shadow-electric-500/50 transition-all">
+          <i class="fa-solid fa-microchip text-white text-base"></i>
+        </div>
+        <span class="font-display font-800 text-xl text-white tracking-tight">
+          PP<span class="text-electric-400">Service</span>
+        </span>
+      </a>
+
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#inicio"    class="text-sm font-body text-slate-300 hover:text-white transition-colors duration-200">Inicio</a>
+        <a href="#nosotros"  class="text-sm font-body text-slate-300 hover:text-white transition-colors duration-200">Nosotros</a>
+        <a href="#servicios" class="text-sm font-body text-slate-300 hover:text-white transition-colors duration-200">Servicios</a>
+        <a href="#redes"     class="text-sm font-body text-slate-300 hover:text-white transition-colors duration-200">Redes</a>
+        <a href="#contacto"  class="btn-primary text-sm font-display font-700 text-white px-5 py-2 rounded-lg">
+          Contacto <i class="fa-solid fa-arrow-right ml-1 text-xs"></i>
+        </a>
+      </div>
+
+      <button id="menu-toggle" class="md:hidden text-slate-300 hover:text-white transition-colors" aria-label="Abrir menú">
+        <i id="menu-icon" class="fa-solid fa-bars text-xl"></i>
+      </button>
+    </div>
+  </div>
+
+  <div id="mobile-menu" class="md:hidden max-h-0 opacity-0 overflow-hidden" style="background:rgba(6,13,31,.97);">
+    <div class="px-4 pb-4 pt-2 flex flex-col gap-1 border-t border-electric-500/10">
+      <a href="#inicio"    onclick="closeMenu()" class="py-2.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-body">Inicio</a>
+      <a href="#nosotros"  onclick="closeMenu()" class="py-2.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-body">Nosotros</a>
+      <a href="#servicios" onclick="closeMenu()" class="py-2.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-body">Servicios</a>
+      <a href="#redes"     onclick="closeMenu()" class="py-2.5 px-3 rounded-lg text-slate-300 hover:text-white hover:bg-white/5 transition-all text-sm font-body">Redes</a>
+      <a href="#contacto"  onclick="closeMenu()" class="mt-2 btn-primary text-center py-3 rounded-lg text-sm font-display font-700 text-white">Contacto</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════
+     HERO
+════════════════════════════════════════ -->
+<section id="inicio" class="relative min-h-screen flex items-center pt-20 pb-16 overflow-hidden">
+  <div class="blob w-96 h-96 bg-electric-500 top-20 -left-32"></div>
+  <div class="blob w-80 h-80 bg-blue-700 bottom-10 right-0"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 w-full">
+    <div class="max-w-3xl mx-auto text-center">
+
+      <div class="hero-tag inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-8 fade-in visible">
+        <span class="w-2 h-2 rounded-full bg-electric-400 animate-pulse"></span>
+        <span class="text-xs font-display font-700 tracking-widest uppercase text-electric-300">Técnico disponible</span>
+      </div>
+
+      <h1 class="font-display font-800 text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[1.05] mb-6 fade-in" style="transition-delay:.1s">
+        Tu equipo roto
+        <br />
+        <span class="gradient-text">vuelve a vivir</span>
+        <br />
+        con <span class="text-electric-400">PPService</span>
+      </h1>
+
+      <p class="font-body text-slate-400 text-lg md:text-xl leading-relaxed max-w-2xl mx-auto mb-10 fade-in" style="transition-delay:.2s">
+        Diagnóstico rápido, reparación precisa y resultados garantizados. Somos el servicio técnico de confianza para tus PCs, notebooks, consolas e impresoras.
+      </p>
+
+      <div class="flex flex-col sm:flex-row gap-4 justify-center items-center fade-in" style="transition-delay:.3s">
+        <a href="#contacto" class="btn-primary w-full sm:w-auto font-display font-700 text-white text-base px-8 py-4 rounded-xl inline-flex items-center justify-center gap-2">
+          <i class="fa-solid fa-wrench"></i> Solicitar Presupuesto
+        </a>
+        <a href="#servicios" class="w-full sm:w-auto font-display font-600 text-slate-300 hover:text-white text-base px-8 py-4 rounded-xl border border-white/10 hover:border-electric-500/40 transition-all inline-flex items-center justify-center gap-2">
+          Ver servicios <i class="fa-solid fa-chevron-down text-sm"></i>
+        </a>
+      </div>
+
+      <div class="mt-14 flex flex-wrap justify-center gap-4 fade-in" style="transition-delay:.4s">
+        <div class="stat-badge rounded-xl px-5 py-3 text-center">
+          <p class="font-display font-800 text-2xl text-white">+500</p>
+          <p class="text-xs text-slate-400 mt-0.5 font-body">Equipos reparados</p>
+        </div>
+        <div class="stat-badge rounded-xl px-5 py-3 text-center">
+          <p class="font-display font-800 text-2xl text-white">24h</p>
+          <p class="text-xs text-slate-400 mt-0.5 font-body">Diagnóstico express</p>
+        </div>
+        <div class="stat-badge rounded-xl px-5 py-3 text-center">
+          <p class="font-display font-800 text-2xl text-white">100%</p>
+          <p class="text-xs text-slate-400 mt-0.5 font-body">Clientes satisfechos</p>
+        </div>
+        <div class="stat-badge rounded-xl px-5 py-3 text-center">
+          <p class="font-display font-800 text-2xl text-white">5★</p>
+          <p class="text-xs text-slate-400 mt-0.5 font-body">Valoración promedio</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider max-w-5xl mx-auto"></div>
+
+
+<!-- ═══════════════════════════════════════
+     NOSOTROS
+════════════════════════════════════════ -->
+<section id="nosotros" class="relative py-20 md:py-28 overflow-hidden">
+  <div class="blob w-72 h-72 bg-electric-500 top-0 right-0 opacity-10"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+      <div class="fade-in">
+        <p class="section-label mb-4">Quién está detrás</p>
+        <h2 class="font-display font-800 text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-6">
+          Hola, soy Pablo.<br />
+          <span class="text-electric-400">Tu técnico de confianza.</span>
+        </h2>
+        <p class="font-body text-slate-400 text-base md:text-lg leading-relaxed mb-5">
+          Fundé <strong class="text-white">PPService</strong> con una misión clara: que nunca pierdas datos, trabajo ni tiempo por culpa de un equipo que nadie supo reparar bien. Con años de experiencia en hardware y software, analizo cada falla desde la raíz, no solo los síntomas.
+        </p>
+        <p class="font-body text-slate-400 text-base md:text-lg leading-relaxed mb-8">
+          Cada PC, notebook, consola o impresora que llega a mis manos recibe el mismo trato que le daría a la mía propia: <strong class="text-slate-200">diagnóstico honesto, presupuesto sin sorpresas y reparación precisa.</strong>
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <span class="hero-tag rounded-full text-xs font-display font-700 text-electric-300 px-4 py-1.5 tracking-wide">
+            <i class="fa-solid fa-check mr-1.5"></i>Diagnóstico gratuito
+          </span>
+          <span class="hero-tag rounded-full text-xs font-display font-700 text-electric-300 px-4 py-1.5 tracking-wide">
+            <i class="fa-solid fa-check mr-1.5"></i>Sin costo si no se repara
+          </span>
+          <span class="hero-tag rounded-full text-xs font-display font-700 text-electric-300 px-4 py-1.5 tracking-wide">
+            <i class="fa-solid fa-check mr-1.5"></i>Garantía en trabajos
+          </span>
+        </div>
+      </div>
+
+      <div class="fade-in" style="transition-delay:.15s">
+        <div class="card rounded-2xl p-8">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="icon-glow w-16 h-16 rounded-2xl flex items-center justify-center shrink-0">
+              <i class="fa-solid fa-user-gear text-electric-400 text-2xl"></i>
+            </div>
+            <div>
+              <p class="font-display font-700 text-white text-lg">Pablo</p>
+              <p class="text-slate-400 text-sm font-body">Técnico fundador · PPService</p>
+            </div>
+          </div>
+          <div class="space-y-4">
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-circle-check text-electric-500 mt-0.5 text-sm shrink-0"></i>
+              <p class="text-slate-300 text-sm font-body">Especialista en reparación a nivel de placa base, soldadura y microprocesadores</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-circle-check text-electric-500 mt-0.5 text-sm shrink-0"></i>
+              <p class="text-slate-300 text-sm font-body">Experto en diagnóstico y recuperación de software, sistemas operativos y datos</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-circle-check text-electric-500 mt-0.5 text-sm shrink-0"></i>
+              <p class="text-slate-300 text-sm font-body">Servicio técnico para todas las marcas: HP, Lenovo, Dell, Sony, Nintendo, PlayStation, Xbox y más</p>
+            </div>
+            <div class="flex items-start gap-3">
+              <i class="fa-solid fa-circle-check text-electric-500 mt-0.5 text-sm shrink-0"></i>
+              <p class="text-slate-300 text-sm font-body">Atención personalizada y comunicación directa durante todo el proceso</p>
+            </div>
+          </div>
+          <div class="mt-6 pt-6 border-t border-electric-500/10">
+            <p class="text-slate-400 text-xs font-body italic">
+              "No arreglo equipos. Le devuelvo la herramienta de trabajo o el entretenimiento a las personas."
+            </p>
+            <p class="text-electric-400 text-xs font-display font-700 mt-1.5">— Pablo, PPService</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider max-w-5xl mx-auto"></div>
+
+
+<!-- ═══════════════════════════════════════
+     SERVICIOS
+════════════════════════════════════════ -->
+<section id="servicios" class="relative py-20 md:py-28 overflow-hidden">
+  <div class="blob w-96 h-96 bg-blue-800 -bottom-20 -left-20 opacity-15"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+
+    <div class="text-center mb-14 fade-in">
+      <p class="section-label mb-3">Qué hacemos</p>
+      <h2 class="font-display font-800 text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-4">
+        Servicios & Productos
+      </h2>
+      <p class="font-body text-slate-400 text-lg max-w-xl mx-auto">
+        Soluciones completas para mantener tu tecnología funcionando al máximo rendimiento.
+      </p>
+    </div>
+
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <div class="card rounded-2xl p-7 fade-in">
+        <div class="icon-glow w-14 h-14 rounded-xl flex items-center justify-center mb-5">
+          <i class="fa-solid fa-screwdriver-wrench text-electric-400 text-2xl"></i>
+        </div>
+        <h3 class="font-display font-700 text-white text-xl mb-3">Mantenimiento Preventivo y Correctivo</h3>
+        <p class="font-body text-slate-400 text-sm leading-relaxed mb-5">
+          ¿Tu equipo va lento, se recalienta o hace ruidos raros? Antes de que el problema se agrave, actuamos. Limpieza profunda, cambio de pasta térmica, revisión de componentes y mucho más.
+        </p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-desktop text-electric-500 text-xs w-4"></i> PCs de escritorio</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-laptop text-electric-500 text-xs w-4"></i> Notebooks de todas las marcas</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-gamepad text-electric-500 text-xs w-4"></i> Consolas de videojuegos</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-print text-electric-500 text-xs w-4"></i> Impresoras de todas las marcas</li>
+        </ul>
+      </div>
+
+      <div class="card rounded-2xl p-7 fade-in" style="transition-delay:.1s">
+        <div class="icon-glow w-14 h-14 rounded-xl flex items-center justify-center mb-5">
+          <i class="fa-solid fa-microchip text-electric-400 text-2xl"></i>
+        </div>
+        <h3 class="font-display font-700 text-white text-xl mb-3">Reparación Especializada</h3>
+        <p class="font-body text-slate-400 text-sm leading-relaxed mb-5">
+          Desde una pantalla rota hasta un disco duro que no arranca: llegamos donde otros técnicos se rinden. Diagnóstico profundo a nivel de hardware y software con soluciones reales.
+        </p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-magnifying-glass-chart text-electric-500 text-xs w-4"></i> Diagnóstico de fallas</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-hard-drive text-electric-500 text-xs w-4"></i> Recuperación de datos</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-brands fa-windows text-electric-500 text-xs w-4"></i> Instalación y recuperación de SO</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-shield-halved text-electric-500 text-xs w-4"></i> Eliminación de virus y malware</li>
+        </ul>
+      </div>
+
+      <div class="card rounded-2xl p-7 fade-in sm:col-span-2 lg:col-span-1" style="transition-delay:.2s">
+        <div class="icon-glow w-14 h-14 rounded-xl flex items-center justify-center mb-5">
+          <i class="fa-solid fa-box-open text-electric-400 text-2xl"></i>
+        </div>
+        <h3 class="font-display font-700 text-white text-xl mb-3">Venta de Insumos y Periféricos</h3>
+        <p class="font-body text-slate-400 text-sm leading-relaxed mb-5">
+          Encontrá en <strong class="text-slate-200">PPService</strong> los accesorios e insumos que necesitás, con calidad verificada y asesoramiento personalizado para elegir la opción correcta.
+        </p>
+        <ul class="space-y-2">
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-keyboard text-electric-500 text-xs w-4"></i> Teclados y periféricos</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-computer-mouse text-electric-500 text-xs w-4"></i> Mouses de escritorio y laptop</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-fill-drip text-electric-500 text-xs w-4"></i> Toners y cartuchos de tinta</li>
+          <li class="flex items-center gap-2 text-sm text-slate-300 font-body"><i class="fa-solid fa-plug text-electric-500 text-xs w-4"></i> Cables, hubs y adaptadores</li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="mt-10 card rounded-2xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 fade-in" style="transition-delay:.3s">
+      <div>
+        <p class="font-display font-700 text-white text-lg">¿No encontrás lo que necesitás?</p>
+        <p class="text-slate-400 text-sm font-body mt-1">Consultanos. Si está dentro de nuestras posibilidades, lo hacemos.</p>
+      </div>
+      <a href="#contacto" class="btn-primary shrink-0 font-display font-700 text-white text-sm px-7 py-3 rounded-xl inline-flex items-center gap-2">
+        <i class="fa-solid fa-comment-dots"></i> Consultanos ahora
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider max-w-5xl mx-auto"></div>
+
+
+<!-- ═══════════════════════════════════════
+     REDES SOCIALES
+════════════════════════════════════════ -->
+<section id="redes" class="relative py-20 md:py-24 overflow-hidden">
+  <div class="blob w-80 h-80 bg-electric-500 bottom-0 left-1/2 -translate-x-1/2 opacity-10"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+
+    <div class="text-center mb-12 fade-in">
+      <p class="section-label mb-3">Seguinos</p>
+      <h2 class="font-display font-800 text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-4">
+        Nuestras <span class="text-electric-400">Redes</span>
+      </h2>
+      <p class="font-body text-slate-400 text-base md:text-lg max-w-lg mx-auto">
+        Seguí a <strong class="text-slate-200">PPService</strong> para ver reparaciones en vivo, consejos técnicos, novedades y promociones exclusivas.
+      </p>
+    </div>
+
+    <!-- Social cards -->
+    <div class="grid sm:grid-cols-2 gap-5 max-w-2xl mx-auto">
+
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/_pp_service?igsh=d2Zra2swOWRhcnY0"
+         target="_blank" rel="noopener"
+         class="card social-ig rounded-2xl p-6 flex items-center gap-5 no-underline group fade-in">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
+             style="background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+                    box-shadow: 0 4px 24px rgba(220,39,67,.45);">
+          <i class="fa-brands fa-instagram text-white text-2xl"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-display font-700 text-white text-base group-hover:text-pink-300 transition-colors">Instagram</p>
+          <p class="text-slate-400 text-sm font-body mt-0.5">@_pp_service</p>
+          <p class="text-slate-500 text-xs font-body mt-1">Fotos · Reparaciones · Tips</p>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square text-slate-600 group-hover:text-pink-400 transition-colors text-sm shrink-0"></i>
+      </a>
+
+      <!-- Facebook -->
+      <a href="https://www.facebook.com/pablo.portillo.18062533"
+         target="_blank" rel="noopener"
+         class="card social-fb rounded-2xl p-6 flex items-center gap-5 no-underline group fade-in" style="transition-delay:.1s">
+        <div class="w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110"
+             style="background: linear-gradient(135deg, #1877f2, #0a5abf);
+                    box-shadow: 0 4px 24px rgba(24,119,242,.45);">
+          <i class="fa-brands fa-facebook-f text-white text-2xl"></i>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-display font-700 text-white text-base group-hover:text-blue-300 transition-colors">Facebook</p>
+          <p class="text-slate-400 text-sm font-body mt-0.5">PPService Oficial</p>
+          <p class="text-slate-500 text-xs font-body mt-1">Página · Reseñas · Novedades</p>
+        </div>
+        <i class="fa-solid fa-arrow-up-right-from-square text-slate-600 group-hover:text-blue-400 transition-colors text-sm shrink-0"></i>
+      </a>
+
+    </div>
+
+    <p class="text-center text-slate-500 text-xs font-body mt-7 fade-in" style="transition-delay:.2s">
+      <i class="fa-solid fa-bell text-electric-500 mr-1.5"></i>
+      Activá las notificaciones para no perderte ninguna oferta ni consejo técnico
+    </p>
+
+  </div>
+</section>
+
+<div class="divider max-w-5xl mx-auto"></div>
+
+
+<!-- ═══════════════════════════════════════
+     CONTACTO
+════════════════════════════════════════ -->
+<section id="contacto" class="relative py-20 md:py-28 overflow-hidden">
+  <div class="blob w-80 h-80 bg-electric-500 top-0 right-0 opacity-10"></div>
+
+  <div class="relative z-10 max-w-6xl mx-auto px-4 sm:px-6">
+
+    <div class="text-center mb-14 fade-in">
+      <p class="section-label mb-3">Empecemos</p>
+      <h2 class="font-display font-800 text-3xl md:text-4xl lg:text-5xl text-white leading-tight mb-4">
+        Contactá a <span class="text-electric-400">PPService</span>
+      </h2>
+      <p class="font-body text-slate-400 text-lg max-w-xl mx-auto">
+        Contanos qué le pasa a tu equipo y te respondemos lo antes posible con un diagnóstico sin costo.
+      </p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8 lg:gap-12">
+
+      <div class="card rounded-2xl p-7 md:p-8 fade-in">
+        <h3 class="font-display font-700 text-white text-lg mb-6">
+          <i class="fa-solid fa-paper-plane text-electric-400 mr-2"></i> Enviar consulta
+        </h3>
+        <form id="contact-form" onsubmit="handleSubmit(event)" class="space-y-4">
+          <div>
+            <label class="block text-xs font-display font-700 text-slate-400 tracking-widest uppercase mb-1.5" for="nombre">Tu nombre</label>
+            <input type="text" id="nombre" name="nombre" required placeholder="Ej: Juan García"
+              class="form-input w-full rounded-xl px-4 py-3 text-sm font-body" />
+          </div>
+          <div>
+            <label class="block text-xs font-display font-700 text-slate-400 tracking-widest uppercase mb-1.5" for="equipo">Tipo de equipo</label>
+            <select id="equipo" name="equipo" required
+              class="form-input w-full rounded-xl px-4 py-3 text-sm font-body appearance-none cursor-pointer">
+              <option value="" disabled selected class="bg-navy-800">Seleccioná tu equipo…</option>
+              <option class="bg-navy-800">PC de escritorio</option>
+              <option class="bg-navy-800">Notebook / Laptop</option>
+              <option class="bg-navy-800">Consola PlayStation</option>
+              <option class="bg-navy-800">Consola Xbox</option>
+              <option class="bg-navy-800">Nintendo Switch</option>
+              <option class="bg-navy-800">Impresora</option>
+              <option class="bg-navy-800">Otro</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-display font-700 text-slate-400 tracking-widest uppercase mb-1.5" for="problema">Describí el problema</label>
+            <textarea id="problema" name="problema" required rows="4" placeholder="Ej: La notebook no enciende, hace un click al prender y la pantalla queda negra…"
+              class="form-input w-full rounded-xl px-4 py-3 text-sm font-body resize-none"></textarea>
+          </div>
+          <button type="submit"
+            class="btn-primary w-full font-display font-700 text-white text-sm py-3.5 rounded-xl flex items-center justify-center gap-2">
+            <i class="fa-solid fa-paper-plane"></i> Enviar consulta
+          </button>
+        </form>
+        <div id="form-success" class="hidden text-center py-8">
+          <i class="fa-solid fa-circle-check text-green-400 text-5xl mb-4"></i>
+          <p class="font-display font-700 text-white text-lg">¡Consulta enviada!</p>
+          <p class="text-slate-400 text-sm font-body mt-2">Te responderemos a la brevedad. ¡Gracias por elegir PPService!</p>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-6 fade-in" style="transition-delay:.15s">
+
+        <a href="https://wa.me/595984354986?text=Hola%20PPService%2C%20necesito%20ayuda%20con%20mi%20equipo"
+           target="_blank" rel="noopener"
+           class="btn-whatsapp card rounded-2xl p-6 flex items-center gap-5 no-underline">
+          <div class="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+            <i class="fa-brands fa-whatsapp text-white text-3xl"></i>
+          </div>
+          <div>
+            <p class="font-display font-700 text-white text-base">WhatsApp directo</p>
+            <p class="text-green-100 text-sm font-body mt-0.5">Respuesta rápida · Click y listo</p>
+            <p class="text-white/70 text-xs font-body mt-1">+595984354986</p>
+          </div>
+          <i class="fa-solid fa-arrow-right text-white/60 ml-auto"></i>
+        </a>
+
+        <a href="mailto:pablop.service@gmail.com"
+           class="btn-email card rounded-2xl p-6 flex items-center gap-5 no-underline">
+          <div class="w-14 h-14 rounded-xl bg-white/10 flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-envelope text-white text-2xl"></i>
+          </div>
+          <div>
+            <p class="font-display font-700 text-white text-base">Correo electrónico</p>
+            <p class="text-red-100 text-sm font-body mt-0.5">Para consultas detalladas</p>
+            <p class="text-white/70 text-xs font-body mt-1">pablop.service@gmail.com</p>
+          </div>
+          <i class="fa-solid fa-arrow-right text-white/60 ml-auto"></i>
+        </a>
+
+        <div class="card rounded-2xl p-6 flex-1">
+          <div class="flex items-center gap-3 mb-5">
+            <div class="icon-glow w-10 h-10 rounded-lg flex items-center justify-center">
+              <i class="fa-regular fa-clock text-electric-400"></i>
+            </div>
+            <p class="font-display font-700 text-white">Horarios de atención</p>
+          </div>
+          <div class="space-y-3">
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-slate-400 text-sm font-body">Lunes – Viernes</span>
+              <span class="text-white text-sm font-display font-600">08:00 – 18:00</span>
+            </div>
+            <div class="flex justify-between items-center py-2 border-b border-white/5">
+              <span class="text-slate-400 text-sm font-body">Sábados</span>
+              <span class="text-white text-sm font-display font-600">09:00 – 13:00</span>
+            </div>
+            <div class="flex justify-between items-center py-2">
+              <span class="text-slate-400 text-sm font-body">Domingos</span>
+              <span class="text-slate-500 text-sm font-display font-600">Cerrado</span>
+            </div>
+          </div>
+          <div class="mt-4 pt-4 border-t border-electric-500/10 flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse shrink-0"></span>
+            <p class="text-slate-400 text-xs font-body">WhatsApp disponible fuera de horario para urgencias</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════
+     FOOTER
+════════════════════════════════════════ -->
+<footer class="border-t border-electric-500/10 py-10">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+
+      <div class="flex items-center gap-2.5">
+        <div class="w-8 h-8 rounded-lg bg-electric-500 flex items-center justify-center">
+          <i class="fa-solid fa-microchip text-white text-sm"></i>
+        </div>
+        <span class="font-display font-800 text-lg text-white">PP<span class="text-electric-400">Service</span></span>
+      </div>
+
+      <div class="flex flex-wrap justify-center items-center gap-5">
+        <a href="#inicio"    class="text-slate-500 hover:text-slate-300 text-sm font-body transition-colors">Inicio</a>
+        <a href="#nosotros"  class="text-slate-500 hover:text-slate-300 text-sm font-body transition-colors">Nosotros</a>
+        <a href="#servicios" class="text-slate-500 hover:text-slate-300 text-sm font-body transition-colors">Servicios</a>
+        <a href="#redes"     class="text-slate-500 hover:text-slate-300 text-sm font-body transition-colors">Redes</a>
+        <a href="#contacto"  class="text-slate-500 hover:text-slate-300 text-sm font-body transition-colors">Contacto</a>
+      </div>
+
+      <!-- Social icons -->
+      <div class="flex items-center gap-3">
+        <a href="https://www.instagram.com/_pp_service?igsh=d2Zra2swOWRhcnY0" target="_blank" rel="noopener" aria-label="Instagram"
+           class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-slate-500 hover:text-pink-400 hover:border-pink-500/40 transition-all duration-300">
+          <i class="fa-brands fa-instagram text-base"></i>
+        </a>
+        <a href="https://www.facebook.com/pablo.portillo.18062533" target="_blank" rel="noopener" aria-label="Facebook"
+           class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-slate-500 hover:text-blue-400 hover:border-blue-500/40 transition-all duration-300">
+          <i class="fa-brands fa-facebook-f text-base"></i>
+        </a>
+        <a href="https://wa.me/595984354986" target="_blank" rel="noopener" aria-label="WhatsApp"
+           class="w-9 h-9 rounded-lg border border-white/10 flex items-center justify-center text-slate-500 hover:text-green-400 hover:border-green-500/40 transition-all duration-300">
+          <i class="fa-brands fa-whatsapp text-base"></i>
+        </a>
+      </div>
+
+    </div>
+
+    <p class="text-center text-slate-700 text-xs font-body mt-6">
+      © 2025 PPService · Todos los derechos reservados
+    </p>
+  </div>
+</footer>
+
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+════════════════════════════════════════ -->
+<script>
+  const toggle = document.getElementById('menu-toggle');
+  const menu   = document.getElementById('mobile-menu');
+  const icon   = document.getElementById('menu-icon');
+  let open = false;
+
+  toggle.addEventListener('click', () => {
+    open = !open;
+    if (open) {
+      menu.style.maxHeight = menu.scrollHeight + 'px';
+      menu.style.opacity = '1';
+      icon.className = 'fa-solid fa-xmark text-xl';
+    } else {
+      closeMenu();
+    }
+  });
+
+  function closeMenu() {
+    open = false;
+    menu.style.maxHeight = '0';
+    menu.style.opacity = '0';
+    icon.className = 'fa-solid fa-bars text-xl';
+  }
+
+  const fadeEls = document.querySelectorAll('.fade-in:not(.visible)');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  fadeEls.forEach(el => observer.observe(el));
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    const form    = document.getElementById('contact-form');
+    const success = document.getElementById('form-success');
+    form.style.display = 'none';
+    success.classList.remove('hidden');
+  }
+
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(section => {
+      if (window.scrollY >= section.offsetTop - 100) current = section.getAttribute('id');
+    });
+    navLinks.forEach(link => {
+      link.classList.remove('text-white');
+      if (link.getAttribute('href') === '#' + current) link.classList.add('text-white');
+    });
+  }, { passive: true });
+</script>
+
+</body>
+</html>
