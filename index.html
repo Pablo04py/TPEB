@@ -5,6 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>PPService – Reparación y Mantenimiento de Equipos Informáticos</title>
   <meta name="description" content="PPService – Servicio técnico profesional en reparación de PCs, notebooks, consolas e impresoras. Diagnóstico rápido y confiable." />
+
+  <!-- ── Favicon (ícono de pestaña) ──
+       Colocá tu logo en img/logo.png y estas líneas lo mostrarán automáticamente.
+       Recomendado: 512×512px, PNG con fondo transparente. -->
+  <link rel="icon"             type="image/png" sizes="32x32"   href="img/logo.png">
+  <link rel="icon"             type="image/png" sizes="192x192" href="img/logo.png">
+  <link rel="apple-touch-icon" sizes="180x180"                  href="img/logo.png">
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
@@ -220,7 +228,13 @@
     <div class="flex items-center justify-between h-16 md:h-18">
 
       <a href="#inicio" class="flex items-center gap-2.5 group">
-        <div class="w-9 h-9 rounded-lg bg-electric-500 flex items-center justify-center shadow-lg shadow-electric-500/30 group-hover:shadow-electric-500/50 transition-all">
+        <!-- Logo navbar: reemplazá img/logo.png con tu archivo -->
+        <img src="img/logo.png" alt="PPService logo"
+             class="h-9 w-9 rounded-lg object-contain transition-all group-hover:opacity-90"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <!-- Fallback: se muestra si la imagen no carga todavía -->
+        <div class="w-9 h-9 rounded-lg bg-electric-500 items-center justify-center shadow-lg shadow-electric-500/30 group-hover:shadow-electric-500/50 transition-all"
+             style="display:none">
           <i class="fa-solid fa-microchip text-white text-base"></i>
         </div>
         <span class="font-display font-800 text-xl text-white tracking-tight">
@@ -476,6 +490,133 @@
       </a>
     </div>
 
+    <!-- ══════════════════════════════════════
+         GALERÍAS DE TRABAJOS
+    ═══════════════════════════════════════ -->
+    <div class="mt-16">
+
+      <div class="text-center mb-10 fade-in" style="transition-delay:.4s">
+        <p class="section-label mb-2">Galería</p>
+        <h3 class="font-display font-800 text-2xl md:text-3xl text-white mb-2">
+          Nuestros <span class="text-electric-400">Trabajos en Fotos</span>
+        </h3>
+        <p class="font-body text-slate-400 text-sm max-w-md mx-auto">
+          Resultados reales de cada categoría. Cada imagen es un equipo que volvió a la vida.
+        </p>
+      </div>
+
+      <!-- ─────────────────────────────────────
+           GALERÍA 1 — COMPUTADORAS
+      ──────────────────────────────────────── -->
+      <div class="fade-in mb-10" style="transition-delay:.5s">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="icon-glow w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-laptop text-electric-400 text-base"></i>
+          </div>
+          <div>
+            <h4 class="font-display font-700 text-white text-lg">PCs & Notebooks</h4>
+            <p class="text-slate-500 text-xs font-body">Reparaciones y mantenimiento de computadoras</p>
+          </div>
+          <span class="ml-auto hero-tag rounded-full px-3 py-1 text-xs font-display font-700 text-electric-300" id="counter-pc">1 / 5</span>
+        </div>
+
+        <div class="relative card rounded-2xl overflow-hidden" id="wrap-pc">
+          <div id="track-pc" class="flex transition-transform duration-500 ease-in-out">
+            <!-- PC Slide 1 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/pc/pc1.jpg" alt="PC trabajo 1" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">PC / Notebook 1</p></div>
+            </div>
+            <!-- PC Slide 2 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/pc/pc2.jpg" alt="PC trabajo 2" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">PC / Notebook 2</p></div>
+            </div>
+            <!-- PC Slide 3 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/pc/pc3.jpg" alt="PC trabajo 3" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">PC / Notebook 3</p></div>
+            </div>
+            <!-- PC Slide 4 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/pc/pc4.jpg" alt="PC trabajo 4" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">PC / Notebook 4</p></div>
+            </div>
+            <!-- PC Slide 5 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/pc/pc5.jpg" alt="PC trabajo 5" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">PC / Notebook 5</p></div>
+            </div>
+          </div>
+          <button onclick="carouselMove('pc',-1)" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all" style="background:rgba(11,22,48,.85);border:1px solid rgba(29,110,245,.35);box-shadow:0 4px 20px rgba(0,0,0,.4)" aria-label="Anterior"><i class="fa-solid fa-chevron-left text-sm"></i></button>
+          <button onclick="carouselMove('pc',1)"  class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all" style="background:rgba(11,22,48,.85);border:1px solid rgba(29,110,245,.35);box-shadow:0 4px 20px rgba(0,0,0,.4)" aria-label="Siguiente"><i class="fa-solid fa-chevron-right text-sm"></i></button>
+        </div>
+        <div class="flex justify-center gap-2 mt-3" id="dots-pc">
+          <button onclick="carouselGoTo('pc',0)" class="carousel-dot-pc w-2 h-2 rounded-full transition-all bg-electric-500 scale-125"></button>
+          <button onclick="carouselGoTo('pc',1)" class="carousel-dot-pc w-2 h-2 rounded-full transition-all bg-white/20"></button>
+          <button onclick="carouselGoTo('pc',2)" class="carousel-dot-pc w-2 h-2 rounded-full transition-all bg-white/20"></button>
+          <button onclick="carouselGoTo('pc',3)" class="carousel-dot-pc w-2 h-2 rounded-full transition-all bg-white/20"></button>
+          <button onclick="carouselGoTo('pc',4)" class="carousel-dot-pc w-2 h-2 rounded-full transition-all bg-white/20"></button>
+        </div>
+      </div>
+
+      <!-- ─────────────────────────────────────
+           GALERÍA 2 — CONSOLAS
+      ──────────────────────────────────────── -->
+      <div class="fade-in mb-10" style="transition-delay:.55s">
+        <div class="flex items-center gap-3 mb-4">
+          <div class="icon-glow w-10 h-10 rounded-xl flex items-center justify-center shrink-0">
+            <i class="fa-solid fa-gamepad text-electric-400 text-base"></i>
+          </div>
+          <div>
+            <h4 class="font-display font-700 text-white text-lg">Consolas de Videojuegos</h4>
+            <p class="text-slate-500 text-xs font-body">PlayStation, Xbox, Nintendo Switch y más</p>
+          </div>
+          <span class="ml-auto hero-tag rounded-full px-3 py-1 text-xs font-display font-700 text-electric-300" id="counter-consolas">1 / 5</span>
+        </div>
+
+        <div class="relative card rounded-2xl overflow-hidden" id="wrap-consolas">
+          <div id="track-consolas" class="flex transition-transform duration-500 ease-in-out">
+            <!-- Consola Slide 1 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/consolas/consola1.jpg" alt="Consola trabajo 1" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">Consola 1</p></div>
+            </div>
+            <!-- Consola Slide 2 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/consolas/consola2.jpg" alt="Consola trabajo 2" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">Consola 2</p></div>
+            </div>
+            <!-- Consola Slide 3 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/consolas/consola3.jpg" alt="Consola trabajo 3" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">Consola 3</p></div>
+            </div>
+            <!-- Consola Slide 4 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/consolas/consola4.jpg" alt="Consola trabajo 4" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">Consola 4</p></div>
+            </div>
+            <!-- Consola Slide 5 -->
+            <div class="min-w-full relative aspect-video" style="background:linear-gradient(135deg,rgba(15,32,80,.9),rgba(11,22,48,1));">
+              <img src="img/consolas/consola5.jpg" alt="Consola trabajo 5" class="w-full h-full object-cover absolute inset-0 transition-opacity duration-300 opacity-0" onerror="this.style.display='none'" onload="this.style.opacity='1'">
+              <div class="absolute bottom-0 left-0 right-0 px-4 py-3" style="background:linear-gradient(to top,rgba(6,13,31,.95),transparent)"><p class="font-display font-700 text-white text-sm">Consola 5</p></div>
+            </div>
+          </div>
+          <button onclick="carouselMove('consolas',-1)" class="absolute left-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all" style="background:rgba(11,22,48,.85);border:1px solid rgba(29,110,245,.35);box-shadow:0 4px 20px rgba(0,0,0,.4)" aria-label="Anterior"><i class="fa-solid fa-chevron-left text-sm"></i></button>
+          <button onclick="carouselMove('consolas',1)"  class="absolute right-3 top-1/2 -translate-y-1/2 z-20 w-10 h-10 rounded-full flex items-center justify-center text-white hover:scale-110 active:scale-95 transition-all" style="background:rgba(11,22,48,.85);border:1px solid rgba(29,110,245,.35);box-shadow:0 4px 20px rgba(0,0,0,.4)" aria-label="Siguiente"><i class="fa-solid fa-chevron-right text-sm"></i></button>
+        </div>
+        <div class="flex justify-center gap-2 mt-3" id="dots-consolas">
+          <button onclick="carouselGoTo('consolas',0)" class="carousel-dot-consolas w-2 h-2 rounded-full transition-all bg-electric-500 scale-125"></button>
+          <button onclick="carouselGoTo('consolas',1)" class="carousel-dot-consolas w-2 h-2 rounded-full transition-all bg-white/20"></button>
+          <button onclick="carouselGoTo('consolas',2)" class="carousel-dot-consolas w-2 h-2 rounded-full transition-all bg-white/20"></button>
+          <button onclick="carouselGoTo('consolas',3)" class="carousel-dot-consolas w-2 h-2 rounded-full transition-all bg-white/20"></button>
+          <button onclick="carouselGoTo('consolas',4)" class="carousel-dot-consolas w-2 h-2 rounded-full transition-all bg-white/20"></button>
+        </div>
+      </div>
+
+    </div><!-- /galerías -->
+
   </div>
 </section>
 
@@ -681,7 +822,12 @@
     <div class="flex flex-col md:flex-row items-center justify-between gap-6">
 
       <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-lg bg-electric-500 flex items-center justify-center">
+        <!-- Logo footer: mismo archivo img/logo.png -->
+        <img src="img/logo.png" alt="PPService logo"
+             class="h-8 w-8 rounded-lg object-contain"
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
+        <div class="w-8 h-8 rounded-lg bg-electric-500 items-center justify-center"
+             style="display:none">
           <i class="fa-solid fa-microchip text-white text-sm"></i>
         </div>
         <span class="font-display font-800 text-lg text-white">PP<span class="text-electric-400">Service</span></span>
@@ -778,6 +924,70 @@
       if (link.getAttribute('href') === '#' + current) link.classList.add('text-white');
     });
   }, { passive: true });
+
+  // ── Carruseles múltiples ────────────────
+  // Estado independiente por galería
+  const carousels = {
+    pc:           { index: 0, total: 5, timer: null },
+    consolas:     { index: 0, total: 5, timer: null },
+    componentes:  { index: 0, total: 5, timer: null },
+  };
+
+  function carouselRender(id) {
+    const c = carousels[id];
+    const track   = document.getElementById(`track-${id}`);
+    const counter = document.getElementById(`counter-${id}`);
+    const dots    = document.querySelectorAll(`.carousel-dot-${id}`);
+
+    track.style.transform = `translateX(-${c.index * 100}%)`;
+    counter.textContent   = `${c.index + 1} / ${c.total}`;
+
+    dots.forEach((dot, i) => {
+      if (i === c.index) {
+        dot.style.background = '#1d6ef5';
+        dot.style.transform  = 'scale(1.25)';
+      } else {
+        dot.style.background = 'rgba(255,255,255,.2)';
+        dot.style.transform  = 'scale(1)';
+      }
+    });
+  }
+
+  function carouselMove(id, dir) {
+    const c = carousels[id];
+    c.index = (c.index + dir + c.total) % c.total;
+    carouselRender(id);
+  }
+
+  function carouselGoTo(id, i) {
+    carousels[id].index = i;
+    carouselRender(id);
+  }
+
+  // Auto-avance independiente para cada carrusel
+  function startTimer(id) {
+    carousels[id].timer = setInterval(() => carouselMove(id, 1), 5000);
+  }
+  function stopTimer(id) {
+    clearInterval(carousels[id].timer);
+  }
+
+  ['pc', 'consolas', 'componentes'].forEach(id => {
+    startTimer(id);
+    const wrap = document.getElementById(`wrap-${id}`);
+
+    // Pausa al hover
+    wrap.addEventListener('mouseenter', () => stopTimer(id));
+    wrap.addEventListener('mouseleave', () => startTimer(id));
+
+    // Swipe táctil
+    let tx = 0;
+    wrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    wrap.addEventListener('touchend',   e => {
+      const diff = tx - e.changedTouches[0].clientX;
+      if (Math.abs(diff) > 40) carouselMove(id, diff > 0 ? 1 : -1);
+    });
+  });
 </script>
 
 </body>
